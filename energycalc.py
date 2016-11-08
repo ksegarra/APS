@@ -8,14 +8,7 @@ Module for Calculating Energy Savings of APS based on Calplug QPL Testing and Ev
 
 #######QUESTION: Are these the default values if the CSV file is not found?  Why are they here in the code rather than read in?  
 
-### Used in testing module not actual calculations
-P_TV_ABS = 40.2
-P_AUDIO_ABS = 64.2
-P_XBOX_ABS = 90.85
-
-T_XBOX_ABS = 7.46
-T_SENSOR_TIMER = 1.25
-
+## constants that should not be changed these are used through out calculations
 HOURS_DAY = 24.0
 DAYS_YEAR = 365.25
 WATTS_KW  = 1.0/1000.0
@@ -98,7 +91,16 @@ def fCalcEnergySavings_OS(E, totEnergySave, totEnergyAPS, yearlyUses):
     return  adjustedUses * (energySavingsPerCycle + energySavingsPerCycle * (1 - E)) - adjustedUses * E * energyAPSPerCycle
     
 if __name__ == '__main__':
-
+    ## rudimentary module tests
+    
+    ### Used in testing module not actual calculations
+    P_TV_ABS = 40.2
+    P_AUDIO_ABS = 64.2
+    P_XBOX_ABS = 90.85
+    
+    T_XBOX_ABS = 7.46
+    T_SENSOR_TIMER = 1.25
+    
 	#### tests tries to match up eq 6,7####
     print fCalcEnergyAPSHypothetical(1.5, 2.2, 4.88)  #######QUESTION: Are these the default values if the CSV file is not found?  Why are they here in the code rather than read in?  
     #fCalcEnergyTier2_TV_DVD_AUDIO(fPowerXbox_Absent, fPowerTV_Absent, fPowerTv_Absent2, fPowerAudio_Absent, fTimeTV_Absent, fTimeXbox_Absent, fTimeSensorTimer):                    ##COMMENT: Remove extraneous and obsolete commented out lines unless a note is placed on each one as to why it is still left in place and commented out

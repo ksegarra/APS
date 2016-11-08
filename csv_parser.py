@@ -7,6 +7,7 @@ Module for Parsing CSV file
 '''
 import csv
 from collections import defaultdict
+from scenario import Scenario
 
 CSV_EXT = '.csv'
 
@@ -37,7 +38,7 @@ def listReadCsv(sFilename):
             print 'bad line {}'.format(csvreader.line_num)
         return l
     return []
-            
+
 def dictReadCsv(sFilename, setRequired=set()):
     '''
     returns a dictionary that matches variable names to value in CSV
@@ -56,11 +57,11 @@ def dictReadCsv(sFilename, setRequired=set()):
                     if value >= 0:
                         dictCSV[device].update([(key, value)])
                     else:
-                        raise CSVParseRowError
+                        dictCSV[device].update([(key, row[2])])
                 else:
                     bStarted = bCheckStarted(row)
         except CSVParseRowError:
-            print 'Row {} is invalid'.format(csvreader.line_num)
+            print 'Row {} is invalid in file {}'.format(csvreader.line_num, sFilename)
             return {}
         except:
             print 'CSV is invalid'
@@ -70,9 +71,41 @@ def dictReadCsv(sFilename, setRequired=set()):
     else:
         raise MissingRequiredKeyError
 
+def parseScenarios(sFilename):
+    '''
+    parses scenarios file into a list of Scenario Objects 
+    '''
+    with open(sFilename, 'r') as csvfile:
+        l = [Scenario()]
+        curr_scenario = 1 # keeps track of the scenario we are in
+        bStarted = False
+        csvreader = csv.reader(csvfile, delimiter=',', dialect='excel')
+        try:
+            for row in csvreader:
+                #print row
+                if bStarted:
+                    device, scenario_index, aps_control, connected, used, pri_source = processRowScenario(row)
+                    print scenario_index, curr_scenario
+                    if scenario_index > curr_scenario:
+                        curr_scenario += 1
+                        l.append(Scenario())
+                    details = [aps_control, connected, used, pri_source]
+                    #print details
+                    l[curr_scenario -1].addDevice(device, list(map(lambda x: bool(x), details)))
+                    #print(l)
+                else:
+                    bStarted = row[0] == 'START'
+        except:
+            print 'bad line {}'.format(csvreader.line_num)
+        return l
+    return []
+
 ## private functions
+def processRowScenario(row):
+    return tuple(fSafeCastInt(row[i]) for i in range(6))
+    
 def bCheckStarted(row):
-    return len(row) >= 3 and row[0] == 'KEY' and row[1] == 'VAL' and row[2] == 'NOTE'
+    return len(row) >= 3 and row[0] == 'DEVICE' and row[1] == 'KEY' and row[2] == 'VAL'
 
 def tupleProcessRow(row):
     if len(row) >= 3:
@@ -88,7 +121,13 @@ def fSafeCastFloat(s):
         return float(s)
     except ValueError:
         return -1
-
+    
+def fSafeCastInt(s):
+    try:
+        return int(s)
+    except ValueError:
+        return s
+    
 if __name__ == '__main__':
     print dictReadCsv('test.csv')
     try:
@@ -99,5 +138,5 @@ if __name__ == '__main__':
     print listReadCsv('test.csv')
     #print dictReadCsv('test.csv', {'PAPS_ACTIVE'})
     #print dictReadCsv('test.csv', {'PAPS_ACTIVE', 'PAPS_STANDBY'})    
-	
+
 ## COMMENT: Please remove obsolete print lines or comment as to what they did and why they are commented out	

@@ -13,7 +13,7 @@ DEFAULT_LIST_FILE = 'workbooks/datain_listtimes.csv'
 DEFAULT_SCENARIOS_FILE = 'workbooks/datain_scenarios.csv'
 
 from collections import namedtuple
-from csv_parser import dictReadCsv, listReadCsv
+from csv_parser import dictReadCsv, listReadCsv, parseScenarios
 from keyconstants import *
 from energycalc import *
 
@@ -21,10 +21,15 @@ from energycalc import *
 Config = namedtuple('Config', ['powerinfile', 'timeinfile', 'outputfile'])
 
 def run_calculations(dictPowerVals, dictTimeVals):
-   '''
+    '''
     function to run based in inputted scenarios, power values and time values
-   '''
-    ##### Mike Pls help implement this ### 
+    
+    remains unimplemented for now but the backbone (ie the equations) are already ready to be plugged in
+    '''
+    print dictPowerVals, dictTimeVals
+    
+    
+    ##### Mike Pls help implement this not 100% how we are gonna determine which equation to use and when### 
 #     energyAPS = fCalcEnergyAPSHypothetical(dictPowerVals[APS_STBY], dictPowerVals[APS_ACT], dictTimeVals[TV_ON])
 #     print 'Energy APS: ', energyAPS
 #     
@@ -53,10 +58,37 @@ def tupleGetData(config):
     '''
     helper function that runs the parsing component of the program
     '''
-    return (dictReadCsv(config.powerinfile, REQUIRED_POWER_CONSTANTS), dictReadCsv(config.timeinfile, REQUIRED_TIME_CONSTANTS))
+    return (dictReadCsv(config.powerinfile), dictReadCsv(config.timeinfile))
 
 if __name__ == '__main__':
+    '''
+    functions that implement parsing are dictReadCsv reads the values of time and power into a dictionary with the format
+    
+    for power:
+    {
+        DEVICE1 : {STATE1: POWER1, STATE2:POWER2....}
+        DEVICE2 : {STATE1: POWER1, STATE2:POWER2....}
+        ..... 
+    }
+    
+    for time:
+    {
+        DEVICE1 : {STATE1: TIME1, STATE2:TIME2....}
+        DEVICE2 : {STATE1: TIME1, STATE2:TIME2....}
+        ..... 
+    }
+    
+    for Scenarios use parse Scenarios which returns a list of Scenario objects (see scenario.py for more info)
+    
+    All the parsing is meant to be extremely flexible so we can put an arbritrary number of devices/states and Scenarios
+    into the csv files as long as they follow the prescribed format
+    
+    '''
     config = Config(DEFAULT_POWER_FILE, DEFAULT_TIME_FILE, DEFAULT_OUTPUT_FILE)
     
     dictPowerVals, dictTimeVals = tupleGetData(config)
     run_calculations(dictPowerVals, dictTimeVals)
+    
+    l = parseScenarios(DEFAULT_SCENARIOS_FILE)
+    print(l)
+    

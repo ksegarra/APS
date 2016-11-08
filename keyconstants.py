@@ -4,9 +4,11 @@ Created on Oct 28, 2016
 @author: Klint
 
 Contains sets of constants that are required in the CSV files
-'''
 
-CALPLUG_DATA = list(x/60 for x in [87,42,101,57,23,42.5,61.5,107,73,59.5,20,74,7,30,52,32,95,81,88,78]) ## COMMENT: Please describe what is going on here - why are these values hardcoded? 
+Ignore this file for now since a lot of this is still in flux but this will eventually contain all the necessary constants
+that are required once those are straightened out
+
+'''
 
 TV_ABS_1 = 'TV_ABSENT_1'
 TV_ABS_2 = 'TV_ABSENT_2'
