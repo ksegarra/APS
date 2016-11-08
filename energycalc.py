@@ -3,9 +3,12 @@ Created on Oct 28, 2016
 
 @author: Klint
 
-Module for Calculating Energy Savings of APS based on Calplug Cyber Power Report
+Module for Calculating Energy Savings of APS based on Calplug QPL Testing and Evaluation Guide
 '''
 
+#######QUESTION: Are these the default values if the CSV file is not found?  Why are they here in the code rather than read in?  
+
+### Used in testing module not actual calculations
 P_TV_ABS = 40.2
 P_AUDIO_ABS = 64.2
 P_XBOX_ABS = 90.85
@@ -56,18 +59,16 @@ def fCalcEnergyTier2_TV(fPowerTV_Absent, fTimeTV_Absent, fTimeSensorTimer):
 
 #Eq 8
 def fCalcEnergyTier2_TV_DVD_XBOX(fPowerXbox_Absent, fPowerTV_Absent, fPowerTv_Absent2, fPowerAudio_Absent, fTimeTV_Absent, fTimeXbox_Absent, fTimeSensorTimer):
-    #print fPowerXbox_Absent, fPowerTV_Absent, fPowerTv_Absent2, fPowerAudio_Absent, fTimeTV_Absent, fTimeXbox_Absent, fTimeSensorTimer
     fTotPower = fPowerXbox_Absent + fPowerTV_Absent + fPowerAudio_Absent
     return fCalcAnnualEnergy(fTotPower, fTimeXbox_Absent - fTimeSensorTimer)
 
 #Eq 9a
 def fCalcEnergyTier2_LongSensorTime(fPowerXbox_Absent, fPowerTV_Absent, fPowerTV_Absent2, fPowerDVD_Absent, fTimeTV_Absent, fTimeXbox_Absent, fTimeSensorTimer, listTVTimeAbsent):
     print(listTVTimeAbsent)
-    avg_time = sum((max(tTVAbs - fTimeSensorTimer, 0) for tTVAbs in listTVTimeAbsent))/float(len(listTVTimeAbsent)) # sum from 1 to 20
+    avg_time = sum((max(tTVAbs - fTimeSensorTimer, 0) for tTVAbs in listTVTimeAbsent))/float(len(listTVTimeAbsent)) # sum from 1 to 20 for the 20 subject values listed in datain_listtimes.csv
     print avg_time
 
     fTotPowerAbs1 = fPowerXbox_Absent + fPowerTV_Absent + fPowerDVD_Absent
-    fTotPowerAbs2 = fPowerXbox_Absent + fPowerTV_Absent2 + fPowerDVD_Absent
 #     print 'avg', avg_time
 #     print fTotPowerAbs1
 #     print fTotPowerAbs2
@@ -97,6 +98,8 @@ def fCalcEnergySavings_OS(E, totEnergySave, totEnergyAPS, yearlyUses):
     return  adjustedUses * (energySavingsPerCycle + energySavingsPerCycle * (1 - E)) - adjustedUses * E * energyAPSPerCycle
     
 if __name__ == '__main__':
-    print fCalcEnergyAPSHypothetical(1.5, 2.2, 4.88)
-    #fCalcEnergyTier2_TV_DVD_AUDIO(fPowerXbox_Absent, fPowerTV_Absent, fPowerTv_Absent2, fPowerAudio_Absent, fTimeTV_Absent, fTimeXbox_Absent, fTimeSensorTimer):
-    print fCalcEnergyTier2_TV_DVD_XBOX(P_XBOX_ABS, P_TV_ABS, 0, P_AUDIO_ABS, 1.5, T_XBOX_ABS, T_SENSOR_TIMER)
+
+	#### tests tries to match up eq 6,7####
+    print fCalcEnergyAPSHypothetical(1.5, 2.2, 4.88)  #######QUESTION: Are these the default values if the CSV file is not found?  Why are they here in the code rather than read in?  
+    #fCalcEnergyTier2_TV_DVD_AUDIO(fPowerXbox_Absent, fPowerTV_Absent, fPowerTv_Absent2, fPowerAudio_Absent, fTimeTV_Absent, fTimeXbox_Absent, fTimeSensorTimer):                    ##COMMENT: Remove extraneous and obsolete commented out lines unless a note is placed on each one as to why it is still left in place and commented out
+    print fCalcEnergyTier2_TV_DVD_XBOX(P_XBOX_ABS, P_TV_ABS, 0, P_AUDIO_ABS, 1.5, T_XBOX_ABS, T_SENSOR_TIMER) #######QUESTION: Are these the default values if the CSV file is not found?  Why are they here in the code rather than read in?  
