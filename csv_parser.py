@@ -29,7 +29,7 @@ def listReadCsv(sFilename):
         csvreader = csv.reader(csvfile, delimiter=',', dialect='excel')
         try:
             for row in csvreader:
-                print row
+                # print row
                 if bStarted: 
                     l.append(fSafeCastFloat(row[1]))
                 else:
@@ -85,7 +85,7 @@ def parseScenarios(sFilename):
                 #print row
                 if bStarted:
                     device, scenario_index, aps_control, connected, used, pri_source = processRowScenario(row)
-                    print scenario_index, curr_scenario
+                    # print scenario_index, curr_scenario
                     if scenario_index > curr_scenario:
                         curr_scenario += 1
                         l.append(Scenario())
@@ -129,14 +129,4 @@ def fSafeCastInt(s):
         return s
     
 if __name__ == '__main__':
-    print dictReadCsv('test.csv')
-    try:
-        pass
-    #   print dictReadCsv('test.csv', {'STANDBY'})    
-    except MissingRequiredKeyError:
-        print 'MissingRequiredKeyError'
-    print listReadCsv('test.csv')
-    #print dictReadCsv('test.csv', {'PAPS_ACTIVE'})
-    #print dictReadCsv('test.csv', {'PAPS_ACTIVE', 'PAPS_STANDBY'})    
-
-## COMMENT: Please remove obsolete print lines or comment as to what they did and why they are commented out	
+    pass

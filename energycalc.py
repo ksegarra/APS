@@ -6,8 +6,6 @@ Created on Oct 28, 2016
 Module for Calculating Energy Savings of APS based on Calplug QPL Testing and Evaluation Guide
 '''
 
-#######QUESTION: Are these the default values if the CSV file is not found?  Why are they here in the code rather than read in?  
-
 ## constants that should not be changed these are used through out calculations
 HOURS_DAY = 24.0
 DAYS_YEAR = 365.25
@@ -101,7 +99,6 @@ if __name__ == '__main__':
     T_XBOX_ABS = 7.46
     T_SENSOR_TIMER = 1.25
     
-	#### tests tries to match up eq 6,7####
-    print fCalcEnergyAPSHypothetical(1.5, 2.2, 4.88)  #######QUESTION: Are these the default values if the CSV file is not found?  Why are they here in the code rather than read in?  
-    #fCalcEnergyTier2_TV_DVD_AUDIO(fPowerXbox_Absent, fPowerTV_Absent, fPowerTv_Absent2, fPowerAudio_Absent, fTimeTV_Absent, fTimeXbox_Absent, fTimeSensorTimer):                    ##COMMENT: Remove extraneous and obsolete commented out lines unless a note is placed on each one as to why it is still left in place and commented out
-    print fCalcEnergyTier2_TV_DVD_XBOX(P_XBOX_ABS, P_TV_ABS, 0, P_AUDIO_ABS, 1.5, T_XBOX_ABS, T_SENSOR_TIMER) #######QUESTION: Are these the default values if the CSV file is not found?  Why are they here in the code rather than read in?  
+	#### tests tries to match up eq 6,7 with the calculation specified in report####
+    print fCalcEnergyAPSHypothetical(1.5, 2.2, 4.88) 
+    print fCalcEnergyTier2_TV_DVD_XBOX(P_XBOX_ABS, P_TV_ABS, 0, P_AUDIO_ABS, 1.5, T_XBOX_ABS, T_SENSOR_TIMER)  

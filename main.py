@@ -6,11 +6,22 @@ Created on Oct 28, 2016
 main module
 '''
 
-DEFAULT_POWER_FILE = 'workbooks/datain_power.csv'
-DEFAULT_TIME_FILE = 'workbooks/datain_time.csv'
-DEFAULT_OUTPUT_FILE = 'outputs/output.csv'
-DEFAULT_LIST_FILE = 'workbooks/datain_listtimes.csv'
-DEFAULT_SCENARIOS_FILE = 'workbooks/datain_scenarios.csv'
+## to change any of the workbook settings change it here
+
+DEFAULT_WORKBOOK_LOCATION = 'settings/workbooks/'
+
+DEFAULT_POWER_FILE      = 'datain_power.csv'
+DEFAULT_TIME_FILE       = 'datain_time.csv'
+DEFAULT_OUTPUT_FILE     = 'output.csv'
+DEFAULT_LIST_FILE       = 'datain_listtimes.csv'
+DEFAULT_SCENARIOS_FILE  = 'datain_scenarios.csv'
+
+DEFAULT_POWER_PATH = DEFAULT_WORKBOOK_LOCATION + DEFAULT_POWER_FILE
+DEFAULT_TIME_PATH = DEFAULT_WORKBOOK_LOCATION + DEFAULT_TIME_FILE
+DEFAULT_OUTPUT_PATH = DEFAULT_WORKBOOK_LOCATION + DEFAULT_OUTPUT_FILE
+DEFAULT_LIST_PATH = DEFAULT_WORKBOOK_LOCATION + DEFAULT_LIST_FILE
+DEFAULT_SCENARIOS_PATH = DEFAULT_WORKBOOK_LOCATION + DEFAULT_SCENARIOS_FILE
+
 
 from collections import namedtuple
 from csv_parser import dictReadCsv, listReadCsv, parseScenarios
@@ -78,17 +89,20 @@ if __name__ == '__main__':
         ..... 
     }
     
-    for Scenarios use parse Scenarios which returns a list of Scenario objects (see scenario.py for more info)
+    for Scenarios use parseScenarios which returns a list of Scenario objects (see scenario.py for more info)
+    for the list parsing use listReadCsv this will parse the sampled list
     
     All the parsing is meant to be extremely flexible so we can put an arbritrary number of devices/states and Scenarios
     into the csv files as long as they follow the prescribed format
     
     '''
-    config = Config(DEFAULT_POWER_FILE, DEFAULT_TIME_FILE, DEFAULT_OUTPUT_FILE)
+	
+	## testing parsing
+    config = Config(DEFAULT_POWER_PATH, DEFAULT_TIME_PATH, DEFAULT_OUTPUT_PATH)
     
     dictPowerVals, dictTimeVals = tupleGetData(config)
     run_calculations(dictPowerVals, dictTimeVals)
     
-    l = parseScenarios(DEFAULT_SCENARIOS_FILE)
-    print(l)
+    l = parseScenarios(DEFAULT_SCENARIOS_PATH)
+    print l
     

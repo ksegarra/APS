@@ -46,6 +46,7 @@ REQUIRED_POWER_CONSTANTS = {TV_ABS_1, TV_ABS_2, TV_ABS_3, TV_ACT_1, TV_ACT_2, TV
 REQUIRED_TIME_CONSTANTS = {TV_ON, TV_ABS, XBOX_ABS, T_SENSOR, T_SENSOR_LONG}
 
 if __name__ == '__main__':
+    ## Testing
     for k in sorted(REQUIRED_TIME_CONSTANTS):
         print k + ',' + '0' + ','
     

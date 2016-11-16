@@ -1,4 +1,5 @@
 *.pyc
 .project
-.devproject
+.pydevproject
 *.docx
+*.csv
